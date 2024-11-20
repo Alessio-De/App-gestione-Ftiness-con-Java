@@ -1,0 +1,48 @@
+import java.util.List;
+import java.util.ArrayList;
+
+public class FitnessApp {
+    private List<User> utenti;
+    private List<Workout> allenamenti;
+    
+    public FitnessApp() {
+        utenti = new ArrayList<>();
+        allenamenti = new ArrayList<>();
+    }
+    
+    // Registra nuovo utente
+    public void registraUtente(User utente) {
+        utenti.add(utente);
+    }
+    
+    // Crea nuovo allenamento
+    public Workout creaAllenamento(String nome, Workout.TipoAllenamento tipo) {
+        Workout nuovoAllenamento = new Workout(nome, tipo);
+        allenamenti.add(nuovoAllenamento);
+        return nuovoAllenamento;
+    }
+    
+    // Esegui allenamento per un utente
+    public void eseguiAllenamento(User utente, Workout allenamento) {
+        double calorieBruciate = allenamento.calcolaCalorieBruciate(utente);
+        System.out.println(utente.getNome() + " ha bruciato " + 
+                           String.format("%.2f", calorieBruciate) + " calorie");
+    }
+    
+    // Metodo main per test
+    public static void main(String[] args) {
+        FitnessApp app = new FitnessApp();
+        
+        // Creazione utente
+        User mario = new User("Mario", "Rossi", 30, 75.5, 1.75);
+        app.registraUtente(mario);
+        
+        // Creazione allenamento
+        Workout cardio = app.creaAllenamento("Allenamento Cardio", Workout.TipoAllenamento.CARDIO);
+        cardio.aggiungiEsercizio(new Esercizio("Corsa", 10, 3, 0.8));
+        cardio.aggiungiEsercizio(new Esercizio("Salto", 20, 2, 0.6));
+        
+        // Esecuzione allenamento
+        app.eseguiAllenamento(mario, cardio);
+    }
+}
